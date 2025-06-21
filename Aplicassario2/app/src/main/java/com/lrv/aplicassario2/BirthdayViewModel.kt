@@ -1,18 +1,25 @@
 package com.lrv.aplicassario2
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class BirthdayViewModel : ViewModel() {
+class BirthdayViewModel(private val dao: BirthdayDao) : ViewModel() {
 
-    private val _birthdays = mutableStateListOf<Birthday>()
-    val birthdays: List<Birthday> = _birthdays
+    val birthdays: StateFlow<List<Birthday>> = dao.getAll()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun addBirthday(birthday: Birthday) {
-        _birthdays.add(birthday)
+        viewModelScope.launch {
+            dao.insert(birthday)
+        }
     }
 
-    fun getByGroup(group: String): List<Birthday> {
-        return _birthdays.filter { it.group == group }
+    fun getByGroup(group: String): StateFlow<List<Birthday>> {
+        return dao.getByGroup(group)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     }
 }

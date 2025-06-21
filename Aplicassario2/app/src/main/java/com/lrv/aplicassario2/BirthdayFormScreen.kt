@@ -1,4 +1,5 @@
 package com.lrv.aplicassario2
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -9,7 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun BirthdayFormScreen(viewModel: BirthdayViewModel, onSave: () -> Unit) {
+fun BirthdayFormScreen(
+    viewModel: BirthdayViewModel,
+    onSave: () -> Unit
+) {
     var name by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
     var group by remember { mutableStateOf("Família") }
@@ -39,8 +43,12 @@ fun BirthdayFormScreen(viewModel: BirthdayViewModel, onSave: () -> Unit) {
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
-                val id = viewModel.birthdays.size + 1
-                viewModel.addBirthday(Birthday(id, name, date, group))
+                val birthday = Birthday(
+                    name = name,
+                    date = date,
+                    group = group
+                )
+                viewModel.addBirthday(birthday)
                 onSave()
             },
             modifier = Modifier.fillMaxWidth()

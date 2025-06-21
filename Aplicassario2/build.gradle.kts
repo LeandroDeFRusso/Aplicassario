@@ -1,10 +1,7 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:8.10.1")
-        classpath(kotlin("gradle-plugin", version = "1.9.24"))
-    }
+plugins {
+    id(libs.plugins.androidApplication.get().pluginId) version libs.plugins.androidApplication.get().version.requiredVersion apply false
+    id(libs.plugins.kotlinAndroid.get().pluginId) version libs.plugins.kotlinAndroid.get().version.requiredVersion apply false
+    id(libs.plugins.ksp.get().pluginId) version libs.plugins.ksp.get().version.requiredVersion apply false
 }
+
+

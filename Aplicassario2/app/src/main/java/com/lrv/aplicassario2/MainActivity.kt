@@ -8,7 +8,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: BirthdayViewModel by viewModels()
+
+    private val dao by lazy { AppDatabase.getDatabase(applicationContext).birthdayDao() }
+
+    private val viewModel: BirthdayViewModel by viewModels {
+        BirthdayViewModelFactory(dao)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
