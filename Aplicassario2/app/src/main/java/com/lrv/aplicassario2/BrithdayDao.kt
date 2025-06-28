@@ -14,4 +14,7 @@ interface BirthdayDao {
 
     @Query("SELECT * FROM birthdays WHERE `group` = :group ORDER BY date")
     fun getByGroup(group: String): Flow<List<Birthday>>
+
+    @Delete
+    suspend fun delete(birthday: Birthday)
 }

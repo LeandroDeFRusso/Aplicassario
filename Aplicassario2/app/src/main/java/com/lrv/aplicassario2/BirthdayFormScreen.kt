@@ -20,38 +20,53 @@ fun BirthdayFormScreen(
 
     val groups = listOf("Família", "Amigos", "Trabalho")
 
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Novo Aniversário",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
+
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
             label = { Text("Nome") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         )
-        Spacer(modifier = Modifier.height(8.dp))
+
         OutlinedTextField(
             value = date,
             onValueChange = { date = it },
             label = { Text("Data (dd/mm)") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         )
-        Spacer(modifier = Modifier.height(8.dp))
+
         DropdownMenuBox(
             options = groups,
             selected = group,
             onSelected = { group = it }
         )
-        Spacer(modifier = Modifier.height(16.dp))
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         Button(
             onClick = {
-                val birthday = Birthday(
-                    name = name,
-                    date = date,
-                    group = group
-                )
+                val birthday = Birthday(name = name, date = date, group = group)
                 viewModel.addBirthday(birthday)
                 onSave()
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
         ) {
             Text("Salvar")
         }
@@ -65,7 +80,8 @@ fun DropdownMenuBox(
     onSelected: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    Box {
+
+    Box(modifier = Modifier.padding(vertical = 8.dp)) {
         OutlinedTextField(
             value = selected,
             onValueChange = {},
@@ -78,6 +94,7 @@ fun DropdownMenuBox(
                 .fillMaxWidth()
                 .clickable { expanded = true }
         )
+
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }

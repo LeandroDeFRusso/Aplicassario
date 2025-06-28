@@ -22,4 +22,10 @@ class BirthdayViewModel(private val dao: BirthdayDao) : ViewModel() {
         return dao.getByGroup(group)
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     }
+
+    fun deleteBirthday(birthday: Birthday) {
+        viewModelScope.launch {
+            dao.delete(birthday)
+        }
+    }
 }
